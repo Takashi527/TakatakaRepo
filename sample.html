@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<title>‚¤‚Ç‚ñ</title>
+<script> 
+$(function() {
+  $('input').click(function() {
+    $('#udon')
+      .text('‚Â‚é‚Â‚é')
+      .css('font-size', '8px')
+      .animate({fontSize: '100px'}, 2000, '', function() {$('#udon').text('‚µ‚±‚µ‚±')})
+      .animate({fontSize: '8px'}, 2000);
+  });
+});
+</script>
+</head>
+<body>
+<input type="button" value="‚¤‚Ç‚ñ">
+<div id="udon"></div>
+</body>
+</html>
