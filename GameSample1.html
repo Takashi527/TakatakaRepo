@@ -1,0 +1,153 @@
+
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+<meta charset="shift_jis">
+<title>HTML5サンプル15パズル</title>
+<style type="text/css">
+#id_canvas1 {
+  position:absolute;
+  top:10px;
+  left:60px
+  z-index:1;
+}
+#id_canvas2 {
+  position:absolute;
+  top:10px;
+  left:60px;
+  z-index:2;
+}
+</style>
+<script type="text/javascript">
+//////////////////////////
+// グローバル変数の定義
+//////////////////////////
+var canvas1;
+var canvas2;
+//var canvas1.ctx1;
+//var canvas2.ctx2;
+var phase_load = 0;
+var phase_init = 1;
+var phase_idle = 2;
+var phase_anime = 3;
+var phase_finish = 4;
+var phase;
+var picture;
+var pieceno;
+var piecedata;
+var animeseq;
+var lastpieceno,animeseq;
+var loaded;
+var gemeno;
+var width = (1+49*4);
+var height = (1+49*4);
+
+//////////////////////////
+// 初期化
+//////////////////////////
+
+onload = function() {
+
+ // 描画コンテキストの取得
+ canvas1 = document.getElementById('id_canvas1');
+ if (!canvas1 || !canvas1.getContext) {
+   alert("現在ご使用のブラウザでは参照できません。HTML5対応ブラウザで表示してください。");
+   return false;
+ }
+ ctx1 = canvas1.getContext('2d');
+ canvas2 = document.getElementById('id_canvas2');
+ ctx2 = canvas2.getContext('2d');
+ // ゲームの初期化
+ // 色を黒に設定
+ ctx2.fillStyle = "rgb(0,0,0)";
+ // 塗りつぶし
+ ctx2.fillRect(0,0,width,height);
+ pieceposx = new Array(16);
+ pieceposy = new Array(16);
+ pieceno = new Array(16);
+ piecedata = new Array(16)
+ lastpieceno = new Array(16);
+ // ローカルストレージからゲーム番号取得
+ gameno = localStorage.getItem("TSato_15puzzle_no");
+ if (gameno == null){
+   gemeno = 0;
+ } else {
+   gemeno = parseInt(gemeno);
+ }
+ 
+ phase = phase_load;
+ loaded = false;
+ loadpicture(gemeno);
+ 
+ setInterval('timerfunc()',50);
+
+};
+
+///////////////////////
+// 各種処理関数
+///////////////////////
+function loadpicture(gemeno) {
+
+  picture = new Image();
+  picture.onload = function(){
+       ctx1.drawImage(picture,0,0);
+//     ctx2.drawImage(picture,0,0);
+     loaded = true;
+  };
+  picture.src = "./pic/" + gemeno + ".jpg";
+}
+
+function initgame() {
+
+  var pos;
+  var str,tm;
+  
+  pos = 0;
+  ctx1.font = "bold 14px 'Times New Roman'";
+  ctx1.fillStyle = "rgb(255,255,255)";
+  for (var y = 0; y < 4; y++){
+    for (var x = 0; x < 4; x++){
+      str = String(pos+1);
+      tm = ctx1.measureText(str);
+      ctx1.fillText(str,x*48+48-tm.width-3,y*48+42);
+      piecedata[pos] = ctx1.getImageData(x*48,y*48,48,48);
+      pieceno[pos] = pos;
+      pos += 1;
+    }
+  }
+  pieceno[15] = -1;
+}
+
+function draw(){
+
+  var lx,ly,posx,posy;
+  
+  ctx2.fillStyle="rgb(200,200,200)";
+
+}
+
+function timerfunc() {
+  switch (phase) {
+  case phase_load:
+    if (loaded) {
+      initgame();
+      draw();
+      phase = phase_init;
+    }
+    break;
+  case phase_anime:
+    // TODO
+    break;
+  }
+}
+
+
+
+</script>
+
+</head>
+<BODY>
+<canvas id="id_canvas1" width="197" height="197"></canvas>
+<canvas id="id_canvas2" width="197" height="197"></canvas>
+</BODY>
+</HTML>
