@@ -59,9 +59,9 @@ onload = function() {
  ctx2 = canvas2.getContext('2d');
  // ゲームの初期化
  // 色を黒に設定
- ctx2.fillStyle = "rgb(0,0,0)";
+// ctx2.fillStyle = "rgb(0,0,0)";
  // 塗りつぶし
- ctx2.fillRect(0,0,width,height);
+ //ctx2.fillRect(0,0,width,height);
  pieceposx = new Array(16);
  pieceposy = new Array(16);
  pieceno = new Array(16);
@@ -116,13 +116,17 @@ function initgame() {
     }
   }
   pieceno[15] = -1;
+
 }
 
 function draw(){
 
   var lx,ly,posx,posy;
   
-  ctx2.fillStyle="rgb(200,200,200)";
+  ctx1.fillStyle="rgb(200,200,200)";
+
+  // シャッフル
+  shuffle();
 
 }
 
@@ -141,7 +145,36 @@ function timerfunc() {
   }
 }
 
+function shuffle(){
 
+  var randnum = Math.floor( Math.random() * 16);
+
+　var randnumArray = new Array(16);
+
+  var tmp = null;
+  var randtmp = null;
+
+  for (var z = 0; z < 16; z++){
+
+    while (randnumArray.contains(randnum,0)){
+
+      randnum = Math.floor( Math.random() * 16);
+
+    }
+
+    tmp = piecedata[z];
+    randtmp = piecedata[randnum]
+
+    piecedata[z] = randtmp
+    piecedata[randnum] = tmp
+
+    randnumArray[z] = randnum;
+
+  }
+//  alert(random);
+
+  
+}
 
 </script>
 
