@@ -59,15 +59,16 @@ onload = function() {
  ctx2 = canvas2.getContext('2d');
  // ゲームの初期化
  // 色を黒に設定
-// ctx2.fillStyle = "rgb(0,0,0)";
+ ctx2.fillStyle = "rgb(0,0,0)";
  // 塗りつぶし
- //ctx2.fillRect(0,0,width,height);
+ ctx2.fillRect(0,0,width,height);
  pieceposx = new Array(16);
  pieceposy = new Array(16);
  pieceno = new Array(16);
  piecedata = new Array(16)
  lastpieceno = new Array(16);
  // ローカルストレージからゲーム番号取得
+ // 次回続きからできるようにする
  gameno = localStorage.getItem("TSato_15puzzle_no");
  if (gameno == null){
    gemeno = 0;
@@ -79,7 +80,7 @@ onload = function() {
  loaded = false;
  loadpicture(gemeno);
  
- setInterval('timerfunc()',50);
+ var timerID = setInterval('timerfunc()',50);
 
  // シャッフル
  shuffle();
@@ -89,6 +90,39 @@ onload = function() {
 ///////////////////////
 // 各種処理関数
 ///////////////////////
+function clickfunk(event){
+  var rect = event.target.getBoundingClientRect();
+  var x = event.clientX - rect.left;
+  var y = event.clientY - rect.top;
+  var piecex = Math.floor((x-1)/49);
+  var piecey = Math.floor((y-1)/49);
+
+  switch (phase) {
+    case phase_init:
+      if (piecex == 3 && piecey ==3) {
+        // 空きマスがクリックされた場合はゲーム番号をリセット
+        gameno = 0;
+        localStorage.removeItem("TSato_15puzzle_no");
+        loaded = false;
+        loadpicture(gameno);
+        phase = phase_load;
+      } else {
+        shuffle();
+        draw();
+        phase = phase_idle;
+      }
+      break;
+    case phase_idle:
+      if (checkmove(piecex,piecey)){
+        initanime();
+        move(piecex,piecey);
+        phase = phase_anime;
+      }
+
+  }
+
+
+}
 
 
 function contains(array, obj) {
@@ -113,6 +147,9 @@ function loadpicture(gemeno) {
   picture.src = "./pic/" + gemeno + ".jpg";
 }
 
+//--------------------------------
+// ゲーム初期化
+//--------------------------------
 function initgame() {
 
   var pos;
@@ -124,8 +161,9 @@ function initgame() {
   for (var y = 0; y < 4; y++){
     for (var x = 0; x < 4; x++){
       str = String(pos+1);
-      tm = ctx1.measureText(str);
-      ctx1.fillText(str,x*48+48-tm.width-3,y*48+42);
+      //tm = ctx1.measureText(str);
+      //ctx1.fillText(str,x*48+48-tm.width-3,y*48+42);
+      ctx1.fillText(str,x*48+40,y*48+40);
       piecedata[pos] = ctx1.getImageData(x*48,y*48,48,48);
       pieceno[pos] = pos;
       pos += 1;
@@ -219,6 +257,27 @@ function shuffle(){
 
   }
 //  alert(random);
+
+  function drawfinish() {
+    var str,tm;
+    var imagedata;
+    var datasize;
+
+    imagedata = ctx2.getImageData(0,0,width,height);
+    datasize = width*height*4;
+    for (var pos = 0; pos < datasize;) {
+      imagedata.data[pos++] /= 2;
+      imagedata.data[pos++] /= 2;
+      imagedata.data[pos++] /= 2;
+      pos += 1;
+    }
+    ctx2.putImageData(imagedata,0,0);
+    ctx2.fillStyle = "rgb(255,255,255)";
+    ctx2.font = "20px 'Times New Roman'";
+    str = "Completed!!";
+    tm = ctx2.measureText(str);
+    ctx2.fillText(str,(width-tm.width)/2,height/2+10);
+  }
 
   
 }
