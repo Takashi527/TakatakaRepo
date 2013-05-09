@@ -24,8 +24,8 @@
 //////////////////////////
 var canvas1;
 var canvas2;
-//var canvas1.ctx1;
-//var canvas2.ctx2;
+var ctx1;
+var ctx2;
 var phase_load = 0;
 var phase_init = 1;
 var phase_idle = 2;
@@ -81,17 +81,33 @@ onload = function() {
  
  setInterval('timerfunc()',50);
 
+ // シャッフル
+ shuffle();
+
 };
 
 ///////////////////////
 // 各種処理関数
 ///////////////////////
+
+
+function contains(array, obj) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//--------------------------------
+// 画像読み込み
+//--------------------------------
 function loadpicture(gemeno) {
 
   picture = new Image();
   picture.onload = function(){
        ctx1.drawImage(picture,0,0);
-//     ctx2.drawImage(picture,0,0);
      loaded = true;
   };
   picture.src = "./pic/" + gemeno + ".jpg";
@@ -119,15 +135,46 @@ function initgame() {
 
 }
 
-function draw(){
-
+function draw() {
   var lx,ly,posx,posy;
-  
-  ctx1.fillStyle="rgb(200,200,200)";
 
-  // シャッフル
-  shuffle();
-
+  ctx2.fillStyle = "rgb(200,200,200)";
+  ctx2.fillRect(0,0,width,height);
+  for (y = 0; y < 4; y++) {
+    for (x = 0; x < 4; x++) {
+      no = pieceno[x+y*4];
+      if (no < 0) {
+        continue;
+      }
+      if (no == lastpieceno[x+y*4] || phase != phase_anime) {
+        ctx2.putImageData(piecedata[no],1+x*49,1+y*49);
+        continue;
+      }
+      for (var i = 0; i < 16; i++) {
+        if (lastpieceno[i] == no) {
+          lx = i%4;
+          ly = Math.floor(i/4);
+          break;
+        }
+      }
+      posx = 1+lx*49;
+      posy = 1+ly*49;
+      if (lx == x) {
+        if (ly > y) {
+          posy -= animeseq*8; 
+        } else {
+          posy += animeseq*8; 
+        }
+      } else {
+        if (lx > x) {
+          posx -= animeseq*8;
+        } else {
+          posx += animeseq*8;
+        }
+      }
+      ctx2.putImageData(piecedata[no],posx,posy);
+    }
+  }
 }
 
 function timerfunc() {
@@ -156,7 +203,7 @@ function shuffle(){
 
   for (var z = 0; z < 16; z++){
 
-    while (randnumArray.contains(randnum,0)){
+    while (contains(randnumArray,randnum)){
 
       randnum = Math.floor( Math.random() * 16);
 
