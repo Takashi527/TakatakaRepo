@@ -7,15 +7,15 @@
 <style type="text/css">
 #id_canvas1 {
   position:absolute;
-  top:10px;
-  left:60px
-  z-index:1;
+  top: 10px;
+  left: 60px
+  z-index: 1;
 }
 #id_canvas2 {
   position:absolute;
-  top:10px;
-  left:60px;
-  z-index:2;
+  top: 10px;
+  left: 60px;
+  z-index: 2;
 }
 </style>
 <script type="text/javascript">
@@ -38,7 +38,7 @@ var piecedata;
 var animeseq;
 var lastpieceno,animeseq;
 var loaded;
-var gemeno;
+var gameno;
 var width = (1+49*4);
 var height = (1+49*4);
 
@@ -71,19 +71,22 @@ onload = function() {
  // 次回続きからできるようにする
  gameno = localStorage.getItem("TSato_15puzzle_no");
  if (gameno == null){
-   gemeno = 0;
- } else {
-   gemeno = parseInt(gemeno);
+   gameno = 0;
+ } else{
+   gameno = parseInt(gameno);
  }
  
  phase = phase_load;
  loaded = false;
- loadpicture(gemeno);
+ loadpicture(gameno);
  
- var timerID = setInterval('timerfunc()',50);
+ setInterval('timerfunc()',50);
 
  // シャッフル
  shuffle();
+
+ // マウスイベント関数の登録
+ canvas2.addEventListener('click',clickfunc,false);
 
 };
 
