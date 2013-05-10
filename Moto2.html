@@ -2,8 +2,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<!--<meta http-equiv="X-UA-Compatible" content="IE=9">-->
 <meta charset="Shift-Jis">
-<title>HTML5サンプル15パズル</title>
+<title>HTML5 サンプル 15パズル</title>
 <style type="text/css">
 #id_canvas1 {
   position:absolute;
@@ -19,13 +20,11 @@
 }
 </style>
 <script type="text/javascript">
-//////////////////////////
+///////////////////////////
 // グローバル変数の定義
-//////////////////////////
-var canvas1;
-var canvas2;
-var ctx1;
-var ctx2;
+///////////////////////////
+var canvas1,ctx1;
+var canvas2,ctx2;
 var phase_load = 0;
 var phase_init = 1;
 var phase_idle = 2;
@@ -33,90 +32,69 @@ var phase_anime = 3;
 var phase_finish = 4;
 var phase;
 var picture;
-var pieceno;
-var piecedata;
-var lastpieceno;
-var animeseq;
+var pieceno,piecedata;
+var lastpieceno,animeseq;
 var loaded;
 var gameno;
 var width = (1+49*4);
 var height = (1+49*4);
 
-//////////////////////////
+///////////////////////////
 // 初期化
 //////////////////////////
-
 onload = function() {
-
- // 描画コンテキストの取得
- canvas1 = document.getElementById('id_canvas1');
-
- if (!canvas1 || !canvas1.getContext) {
-   alert("現在ご使用のブラウザでは参照できません。HTML5対応ブラウザで表示してください。");
-   return false;
- }
- ctx1 = canvas1.getContext('2d');
- canvas2 = document.getElementById('id_canvas2');
- ctx2 = canvas2.getContext('2d');
- // ゲームの初期化
- // 色を黒に設定
- ctx2.fillStyle = "rgb(0,0,0)";
- // 塗りつぶし
- ctx2.fillRect(0,0,width,height);
- pieceposx = new Array(16);
- pieceposy = new Array(16);
- pieceno = new Array(16);
- piecedata = new Array(16)
- lastpieceno = new Array(16);
- // ローカルストレージからゲーム番号取得
- // 次回続きからできるようにする
- gameno = localStorage.getItem("TSato_15puzzle_no");
- if (gameno == null){
-   gameno = 0;
- } else{
-   gameno = parseInt(gameno);
- }
- 
- phase = phase_load;
- loaded = false;
- loadpicture(gameno);
- 
- setInterval('timerfunc()',50);
-
- // マウスイベント関数の登録
- canvas2.addEventListener('click',clickfunc,false);
-
+  // 描画コンテキストの取得
+  canvas1 = document.getElementById('id_canvas1');
+  
+  if (!canvas1 || !canvas1.getContext) {
+    alert("本ページの閲覧はHTML5対応ブラウザで行ってください");
+    return false;
+  }
+  ctx1 = canvas1.getContext('2d');
+  canvas2 = document.getElementById('id_canvas2');
+  ctx2 = canvas2.getContext('2d');
+  // ゲームの初期化
+  ctx2.fillStyle = "rgb(0,0,0)";
+  ctx2.fillRect(0,0,width,height);
+  pieceposx = new Array(16);
+  pieceposy = new Array(16);
+  pieceno = new Array(16);
+  piecedata = new Array(16);
+  lastpieceno = new Array(16);
+  gameno = localStorage.getItem("ishii_15puzzle_no");
+  if (gameno == null) {
+    gameno = 0;
+  } else {
+    gameno = parseInt(gameno);
+  }
+  phase = phase_load;
+  loaded = false;
+  loadpicture(gameno);
+  // インターバルタイマー関数の登録
+  setInterval('timerfunc()', 50);
+  // マウスイベント関数の登録
+  canvas2.addEventListener('click',clickfunc,false);
 };
-
-///////////////////////
+/////////////////////////////
 // 各種処理関数
-///////////////////////
-//--------------------------------
-// 画像読み込み
-//--------------------------------
-function loadpicture(gemeno) {
-
+/////////////////////////////
+function loadpicture(gameno) {
   picture = new Image();
-  picture.onload = function(){
-       ctx1.drawImage(picture,0,0);
-     loaded = true;
-  };
+  picture.onload = function() {
+                     ctx1.drawImage(picture,0,0);
+                     loaded = true;
+		   };
   picture.src = "./pic/" + gameno + ".jpg";
 }
-
-//--------------------------------
-// ゲーム初期化
-//--------------------------------
 function initgame() {
-
   var pos;
   var str,tm;
-  
+
   pos = 0;
-  ctx1.font = "bold 14px 'Times New Roman'";
+  ctx1.font = "bold 14px 'Times New Roman'"; 
   ctx1.fillStyle = "rgb(255,255,255)";
-  for (var y = 0; y < 4; y++){
-    for (var x = 0; x < 4; x++){
+  for (var y = 0; y < 4; y++) {
+    for (var x = 0; x < 4; x++) {
       str = String(pos+1);
       tm = ctx1.measureText(str);
       ctx1.fillText(str,x*48+48-tm.width-3,y*48+42);
@@ -126,9 +104,7 @@ function initgame() {
     }
   }
   pieceno[15] = -1;
-
 }
-
 function shuffle() {
   var dirnum;
   var dirx,diry;
@@ -294,24 +270,34 @@ function draw() {
 }
 
 function drawfinish() {
-    var str,tm;
-    var imagedata;
-    var datasize;
+  var str,tm;
+  var imagedata;
+  var datasize;
 
-    imagedata = ctx2.getImageData(0,0,width,height);
-    datasize = width*height*4;
-    for (var pos = 0; pos < datasize;) {
-      imagedata.data[pos++] /= 2;
-      imagedata.data[pos++] /= 2;
-      imagedata.data[pos++] /= 2;
-      pos += 1;
-    }
-    ctx2.putImageData(imagedata,0,0);
-    ctx2.fillStyle = "rgb(255,255,255)";
-    ctx2.font = "20px 'Times New Roman'";
-    str = "Completed!!";
-    tm = ctx2.measureText(str);
-    ctx2.fillText(str,(width-tm.width)/2,height/2+10);
+  imagedata = ctx2.getImageData(0,0,width,height);
+  datasize = width*height*4;
+  for (var pos = 0; pos < datasize;) {
+    imagedata.data[pos++] /= 2;
+    imagedata.data[pos++] /= 2;
+    imagedata.data[pos++] /= 2;
+    pos += 1;
+  }
+  ctx2.putImageData(imagedata,0,0);
+  ctx2.fillStyle = "rgb(255,255,255)";
+  ctx2.font = "20px 'Times New Roman'";
+  str = "Completed!!";
+  tm = ctx2.measureText(str);
+  ctx2.fillText(str,(width-tm.width)/2,height/2+10);
+}
+
+function playaudio(audioid) {
+  try {
+    document.getElementById(audioid).currentTime = 0;
+    document.getElementById(audioid).play();
+  } catch (e) {
+    // for IE9
+    document.getElementById(audioid).play();
+  }
 }
 
 /////////////////////////////
@@ -330,7 +316,7 @@ function clickfunc(event) {
     if (piecex == 3 && piecey == 3) {
       // 空きマスがクリックされた場合はゲーム番号をリセット
       gameno = 0;
-      localStorage.removeItem("TSato_15puzzle_no");
+      localStorage.removeItem("ishii_15puzzle_no");
       loaded = false;
       loadpicture(gameno);
       phase = phase_load;
@@ -345,6 +331,7 @@ function clickfunc(event) {
     if (checkmove(piecex,piecey)) {
       initanime();
       move(piecex,piecey);
+      //playaudio("id_audiomove");
       phase = phase_anime;
     }
     break;
@@ -356,7 +343,7 @@ function clickfunc(event) {
   }
 }
 
-
+// インターバルタイマーの処理関数
 function timerfunc() {
   switch (phase) {
   case phase_load:
@@ -367,7 +354,6 @@ function timerfunc() {
     }
     break;
   case phase_anime:
-
      if (checkanimeend()) {
        if (checkfinish()) {
          gameno += 1;
@@ -375,7 +361,8 @@ function timerfunc() {
            gameno = 0;
          }
          drawfinish();
-         localStorage.setItem("TSato_15puzzle_no",String(gameno));
+         // playaudio("id_audiofinish");
+         localStorage.setItem("ishii_15puzzle_no",String(gameno));
          phase = phase_finish;
        } else {
          phase = phase_idle;
@@ -388,12 +375,10 @@ function timerfunc() {
      break;
   }
 }
-
 </script>
-
 </head>
-<BODY>
+<body>
 <canvas id="id_canvas1" width=197 height="197"></canvas>
 <canvas id="id_canvas2" width=197 height="197"></canvas>
-</BODY>
-</HTML>
+</body>
+</html>
