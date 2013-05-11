@@ -17,6 +17,18 @@
   left: 60px;
   z-index: 2;
 }
+#id_clearButton {
+  position:absolute;
+  top: 210px;
+  left: 60px;
+}
+#id_retryButton {
+  position:absolute;
+  top: 210px;
+  left: 120px;
+}
+
+
 </style>
 <script type="text/javascript" src="js/gameJs.js"></script>
 <script type="text/javascript">
@@ -97,10 +109,16 @@ onload = function() {
 
 </head>
 <BODY>
+<tr>
 <canvas id="id_canvas1" width=197 height="197"></canvas>
 <canvas id="id_canvas2" width=197 height="197"></canvas>
 <audio id="id_audioGamaStart"><source src="./audio/gameStart.ogg"></audio>
 <audio id="id_audioGamaClear"><source src="./audio/gameClear.mp3"></audio>
-<input type="button" value="クリア" onclick="drawfinish()" />
+</tr>
+<tr>
+<input type="button" value="クリア" id="id_clearButton" onclick="drawfinish()" />
+<input type="button" value="やり直し" id="id_retryButton" onclick="window.location.reload()" />
+</tr>
+
 </BODY>
 </HTML>
