@@ -1,0 +1,46 @@
+＜JQueryについて＞
+①導入方法
+　・ダウンロードする
+　　→本家サイトにいってダウンロード
+　　http://jquery.com/download/
+　・CDNを使ってjQueryを読み込む（これが一般的だと思う）
+　　→下記みたいにContents Delivery Networkでパスを設定
+　　// その1
+　　<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+　　// その2
+　　<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+　　※上記はSSL認証が必要なページを読み込む際、httpsdで指定が必要
+
+②書き方
+jQuery(function ($) {
+    // この中に処理を書く
+});
+
+上記でなくてもかけるが、そうすると、処理するelementの下で、処理を定義しないと動かないということが発生するため、基本的にはjQuery(function ($)){}でくくるのがよい。
+
+ドキュメントが構成されてから動かすというやり方ができる。
+
+// パターン1
+$(document).ready(function(){
+    // 処理をここに書く
+});
+
+// パターン2
+$(function(){
+    // 処理をここに書く
+});
+
+ただし、上記、パターン１、２ではjsファイルを共通化しようとした際、変数「$」がバッティングしてしまうなどの問題が発生する可能性がある。
+
+よって、手間でもjQuery(function ($)と記載したほうが、変数を内部で使用できるため安全。
+
+$ = "hoge";     // ここで$を上書きしても
+ 
+jQuery(function ($) {
+ 
+    // この中では、安全に$を使うことができます。
+    $("#color_div").css("border", "1px solid red");
+     
+    // なのでこの中では、jQueryと書くより、$と書いたほうが楽でいい
+     
+});

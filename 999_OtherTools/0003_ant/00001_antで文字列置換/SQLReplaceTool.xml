@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." name="sqlreplacetool">
+
+	<!-- *** ファイルセット定義 *** -->
+	<!-- プロファイルフォルダ内のivy.xmlファイル -->
+	<fileset dir="${basedir}/target" id="sql.all">
+		<include name="**/SQL*.sql" />
+	</fileset>
+
+	<target name="release-sql" description="sqlのコメント行を除去します">
+
+		<echo message="replace実行開始..." />
+
+		<replaceregexp byline="true">
+			<regexp pattern="--(.*)" />
+			<substitution expression="" />
+			<fileset refid="sql.all" />
+		</replaceregexp>
+
+		<replaceregexp byline="true">
+			<regexp pattern="^+[\n|\r|\r\n]/g" />
+			<substitution expression="" />
+			<fileset refid="sql.all" />
+		</replaceregexp>
+
+		<echo message="replace実行終了..." />
+	</target>
+
+</project>
