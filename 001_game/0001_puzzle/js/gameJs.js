@@ -242,6 +242,8 @@ function drawfinish() {
     str = "Completed!!";
     tm = ctx2.measureText(str);
     ctx2.fillText(str,(width-tm.width)/2,height/2+10);
+
+    updateGameno();
     
     // 一旦ゲーム音楽を止める
     pauseaudio("id_audioGamaStart");
@@ -249,6 +251,22 @@ function drawfinish() {
         // クリア音楽を流す
     playaudio("id_audioGamaClear", false);
     
+}
+
+/////////////////////////////
+// localStorageの番号更新
+/////////////////////////////
+function updateGameno(){
+    var gamenoTmp = localStorage.getItem("TSato_15puzzle_no");
+    var gameNoOld = parseInt(gamenoTmp);
+    if (gameNoOld == null){
+        gameNoNew = 1;
+    } else if (gameNoOld < 3) {
+        gameNoNew = gameNoOld + 1;
+    } else {
+       gameNoNew = 0;
+    }
+    localStorage.setItem("TSato_15puzzle_no",String(gameNoNew));
 }
 
 /////////////////////////////

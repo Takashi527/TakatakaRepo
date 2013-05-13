@@ -1,0 +1,128 @@
+@charset "utf-8";
+
+
+/*======================================
+
+base
+
+=======================================*/
+body,td,th,pre,input,textarea {
+	//font-family: "IPAex�S�V�b�N", Meiryo, "�l�r �o�S�V�b�N", Osaka, "�q���M�m�p�S Pro W3";
+	color: background-color
+: #F0EFEC;;
+	color: #8A8A8A;
+	font-size: 12px;
+}
+body {
+	background-color: #F0EFEC;
+	margin:0 auto;
+        padding:0;
+}
+
+/*======================================
+
+link
+
+=======================================*/
+a:link {
+	color: #9c9c9c;
+	text-decoration: none;
+	font-size: 14px;
+}
+a:visited {
+	text-decoration: none;
+	font-size: 14px;
+	color: #9c9c9c;
+}
+a:hover {
+	text-decoration: underline;
+	color: #FF66FF;
+}
+a:active {
+	text-decoration: none;
+	color: #6699FF;
+}
+/*======================================
+
+wrap
+
+=======================================*/
+#wrap {
+	margin: 15px 10px;
+}
+#wrap  h4 {
+	margin: 25px 0 10px 0x;
+	text-align: center;
+	font-size: 18px;
+}
+/*======================================
+
+title
+
+=======================================*/
+#wrap .title {
+	width: 800px;
+	overflow: hidden;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: #D4D0C8;
+	height: 110px;
+	margin-left: 170px;
+}
+
+#wrap .title h1 {
+	float: left;
+	line-height: 85px;
+	height: 80px;
+	margin-top: 30px;
+	padding: 0px;
+	font-size: 35px;
+	font-weight: normal;
+	margin-left: 70px;
+	text-shadow: 1px 1px rgba(255, 255, 255, 1);
+}
+
+/*======================================
+
+main
+
+=======================================*/
+#wrap .main {
+	
+	padding: 0;
+
+
+}
+/*======================================
+
+footer
+
+=======================================*/
+#wrap .footer {
+	line-height: 45px;
+	font-size: .8em;
+	text-align: left;
+	clear: both;
+	margin: 5px 0 0 35px;
+	width: 960px;
+}
+
+
+.demo {
+
+    position:relative;
+    background-color: #ECEAEA;
+    width:800px;
+    height: 300px;
+    overflow:hidden;
+    border:1px #ccc solid;
+    border: 1px 1px rgba(255, 255, 255, 1);
+    margin:70px auto;
+    padding:20px;
+    border-radius:10px;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+	    box-shadow:1px 1px 5px #111;
+	    -moz-box-shadow:1px 1px 5px #111;
+	    -webkit-box-shadow:1px 1px 5px #111;
+}

@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>RoundAbout</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+	<div class="title">
+		<h1>要素を回転させるJQuery"RoundAbout"</h1>
+	</div>
+
+<style type="text/css">
+   /* <![CDATA[ */
+ul#myRoundabout{ list-style: none; padding: 0; height: 55em; margin: 0 auto; }
+ul#myRoundabout li{
+      height: 30em;
+      width: 26em;
+      cursor: pointer;
+      background-color: #ccc;
+      border: 1px solid #999;
+   }
+ul#myRoundabout { cursor: auto; }
+span {display: block; padding: 6em 11em;}
+p {display: block; padding-left: 7em ;}
+   /* ]]> */
+</style> 
+
+
+<script src="js/jquery.roundabout.js"></script>
+<script src="js/jquery.roundabout-shapes.js"></script>
+<script type="text/javascript">
+   // <![CDATA[
+   $(document).ready(function() {
+      $('ul').roundabout({
+//         shape: 'waterWheel' // 水車のように垂直方向に回転。
+//         shape: 'Lazy Susan' // 前面以外のオブジェクトをクリックすると、回転。
+//         shape: 'Figure 8' // 水平方向の別バージョン。
+//         shape: 'rollerCoaster' // 波打つようにぐるぐる回転。
+         shape: 'tearDrop' // 角度をつけてらせん状に回転。
+//         shape: 'The Juggler' // 斜め方向に回転。
+//         shape: 'Goodbye Cruel World' // エリア外に急激に落下。
+      });
+   });
+   // ]]>
+</script> 
+<!--<h4>参考：<a href='http://fredhq.com/projects/roundabout-shapes#shape-lazySusan' target='_blank'>Roundabout Shapes for jQuery</a></h4>-->
+ 
+<div class="demo">
+	<ul id="myRoundAbout">
+		<li><span>sample 1</span><p>Sample 2をクリックしてください</p></li>
+		<li><span>sample 2</span></li>
+		<li><span>sample 3</span></li>
+		<li><span>sample 4</span></li>
+		<li><span>sample 5</span></li>
+	</ul>
+</div>
+<div style="clear:both;"></div>
+</body>
+</html>
