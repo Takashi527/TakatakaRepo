@@ -261,7 +261,7 @@ function updateGameno(){
     var gameNoOld = parseInt(gamenoTmp);
     if (gameNoOld == null){
         gameNoNew = 1;
-    } else if (gameNoOld < 3) {
+    } else if (gameNoOld < 4) {
         gameNoNew = gameNoOld + 1;
     } else {
        gameNoNew = 0;
@@ -326,7 +326,7 @@ function timerfunc() {
      if (checkanimeend()) {
        if (checkfinish()) {
          gameno += 1;
-         if (gameno == 4) {
+         if (gameno == 5) {
            gameno = 0;
          }
          drawfinish();
